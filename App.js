@@ -11,8 +11,7 @@ export default function App() {
   return (
     <ScoreProvider>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Home">
-        
+        <Stack.Navigator initialRouteName="Results">
           <Stack.Screen
             name="Home"
             options={{
@@ -34,9 +33,8 @@ export default function App() {
             }}
             component={ResultsScreen}
           />
-          
         </Stack.Navigator>
       </NavigationContainer>
-      </ScoreProvider>
+    </ScoreProvider>
   );
 }

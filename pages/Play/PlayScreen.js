@@ -1,19 +1,21 @@
-import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, Animated } from "react-native";
+import React, { useState, useEffect, useContext } from "react";
+import { View, Text, StyleSheet, Animated, SafeAreaView } from "react-native";
 import axios from "axios";
 import Question from "../../components/Question/Question";
+import {ScoreContext} from "../../context/ScoreProvider";
 
 function PlayScreen({ navigation }) {
-  const [questions, setQuestions] = useState([]); //all the questions
+  const { questionIndex,setQuestionIndex, questions, setQuestions } = useContext(ScoreContext);
+  //const [questions, setQuestions] = useState([]); //all the questions
   const [progress, setProgress] = useState(new Animated.Value(0));
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [page, setPage] = useState(false);
+  const url =
+    "https://opentdb.com/api.php?amount=10&difficulty=hard&type=boolean";
 
   useEffect(() => {
-    axios
-      .get("https://opentdb.com/api.php?amount=10&difficulty=hard&type=boolean")
+      axios
+      .get(url)
       .then(function (response) {
-        console.log(response.data.results);
         setQuestions(response.data.results);
         setPage(true);
       })
@@ -21,68 +23,50 @@ function PlayScreen({ navigation }) {
         console.log(error);
       })
       .then(function () {});
+    
+    
   }, []);
 
   const renderQuestion = () => {
     return (
-      <View
-        style={{
-          marginVertical: 40,
-        }}
-      >
-        {/* Question Counter */}
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "flex-end",
-          }}
-        >
-          <Text
-            style={{
-              color: "black",
-              fontSize: 20,
-              opacity: 0.6,
-              marginRight: 2,
-            }}
-          >
-            {currentQuestionIndex + 1}
-          </Text>
-          <Text style={{ color: "black", fontSize: 18, opacity: 0.6 }}>
-            / {questions.length}
-          </Text>
+      <View style={styles.container}>
+        <View style={styles.header}>
+          <Text style={styles.textPage}>{questionIndex + 1}</Text>
+          <Text style={styles.textTotal}>/ {questions.length}</Text>
         </View>
         <Question
-          question={questions[currentQuestionIndex]}
+          question={questions[questionIndex]}
           handleNext={handleNext}
         />
       </View>
     );
   };
   const handleNext = () => {
-    if (currentQuestionIndex == questions.length - 1) {
-      // Last Question
+    if (questionIndex == questions.length - 1) {
       navigation.navigate("Results");
     } else {
-      setCurrentQuestionIndex(currentQuestionIndex + 1);
+      setQuestionIndex(questionIndex + 1);
     }
     Animated.timing(progress, {
-      toValue: currentQuestionIndex + 1,
-      duration: 1000,
+      toValue: questionIndex + 1,
+      duration: 2000,
       useNativeDriver: false,
     }).start();
   };
 
   return (
-    <View style={{ margin: 20 }}>
-      {page === true ? (
-        <View>{renderQuestion()}</View>
-      ) : (
-        <View>
-          {" "}
-          <Text>Loading</Text>
-        </View>
-      )}
-    </View>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
+      <View style={{ margin: 20 }}>
+        {page === true ? (
+          <View>{renderQuestion()}</View>
+        ) : (
+          <View>
+            {" "}
+            <Text>Loading</Text>
+          </View>
+        )}
+      </View>
+    </SafeAreaView>
   );
 }
 
@@ -94,28 +78,18 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
+    width: "100%",
+    marginTop: "200px",
   },
-  text: {
-    width: "60%",
-    textAlign: "center",
-    margin: 20,
-    fontSize: "1.4rem",
+  header: {
+    flexDirection: "row",
+    alignItems: "flex-end",
   },
-  textTitle: {
-    width: "60%",
-    textAlign: "center",
-    marginTop: 0,
-    marginBottom: 160,
-    fontWeight: "bolder",
-    fontSize: "1.6rem",
+  textPage: {
+    color: "black",
+    fontSize: 20,
+    opacity: 0.6,
+    marginRight: 2,
   },
-  btn: {
-    width: "40%",
-    backgroundColor: "gray",
-    textAlign: "center",
-    height: 40,
-    borderRadius: "10px",
-    alignContent: "center",
-    padding: 10,
-  },
+  textTotal: { color: "black", fontSize: 18, opacity: 0.6 },
 });

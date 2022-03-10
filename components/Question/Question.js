@@ -1,77 +1,71 @@
-import React, {useContext} from "react";
+import React, { useContext } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import {ScoreContext} from '../../context/ScoreProvider';
+import { ScoreContext } from "../../context/ScoreProvider";
 
-export default function Question({ question, handleNext}) {
-  const {score, setScore} = useContext(ScoreContext);
-const compareAnswer = (op) => {
-  const answer = question.correct_answer;
-  console.log("answer ", answer)
-  if(answer === op){
-    alert("The answer is correct!");
-    setScore(score + 1);
+export default function Question({ question, handleNext }) {
+  const { score, setScore } = useContext(ScoreContext);
+  const compareAnswer = (op) => {
+    const answer = question.correct_answer;
+    if (answer === op) {
+      setScore(score + 1);
+      handleNext();
+      return;
+    }
     handleNext();
-    return;
-  }
-  alert("Incorrect answer!");
-  handleNext();
-}
+  };
 
   return (
-    <View >
-      <Text style={{ textAlign: "center", fontSize: "1.4rem" }}>
-        {question.category}
-      </Text>
-      <View
-        style={{
-          height: "fit-content",
-          display: "flex",
-          justifyContent: "center",
-          alignContent: "center",
-          border: "2px solid black",
-          padding: 25,
-        }}
-      >
-        <Text style={{ textAlign: "center", fontSize: "1.2rem" }}>
-          {question.question}
-        </Text>
+    <View>
+      <Text style={styles.textTitle}>{question.category}</Text>
+      <View style={styles.questionBox}>
+        <Text style={styles.textQuestion}>{question.question}</Text>
       </View>
-
-      <TouchableOpacity key={1} onPress={() => compareAnswer("True")}>True</TouchableOpacity>
-      <TouchableOpacity key={0} onPress={() => compareAnswer("False")}>False</TouchableOpacity>
+      <View style={styles.btnBox}>
+        <TouchableOpacity style={styles.btn} key={1} onPress={() => compareAnswer("True")}>
+          <Text>True </Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.btn} key={0} onPress={() => compareAnswer("False")}>
+          <Text>False </Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: '#fff',
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    text:{
-      width:'60%',
-      textAlign:'center',
-      margin:20,
-      fontSize:'1.4rem'
-    },
-    textTitle:{
-      width:'60%',
-      textAlign:'center',
-      marginTop:0,
-      marginBottom:160,
-      fontWeight:'bolder',
-      fontSize:'1.6rem'
-    },
-    btn:{
-      width:'40%',
-      backgroundColor:'gray',
-      textAlign:'center',
-      height:40,
-      borderRadius:'10px',
-      alignContent:'center',
-      padding:10,
-      
-    }
-  });
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  textTitle: {
+    textAlign: "center",
+    fontSize: "1.4rem",
+    fontWeight: "bold",
+    marginTop: 15,
+  },
+  questionBox: {
+    height: "fit-content",
+    display: "flex",
+    justifyContent: "center",
+    alignContent: "center",
+    border: "2px solid black",
+    padding: 25,
+    margin: 40,
+  },
+  textQuestion: { textAlign: "center", fontSize: "1.2rem" },
+  btnBox:{
+    display:'flex', flexDirection:'row', justifyContent:'center',
+  },
+  btn: {
+    width: "30%",
+    backgroundColor: "gray",
+    textAlign: "center",
+    height: 40,
+    borderRadius: "10px",
+    alignContent: "center",
+    padding: 10,
+    margin:5,
+  },
+});
