@@ -1,19 +1,24 @@
 import React, { useState, useEffect, useContext } from "react";
-import { View, Text, StyleSheet, Animated, SafeAreaView } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  SafeAreaView,
+  ActivityIndicator,
+} from "react-native";
 import axios from "axios";
 import Question from "../../components/Question/Question";
-import {ScoreContext} from "../../context/ScoreProvider";
+import { ScoreContext } from "../../context/ScoreProvider";
 
 function PlayScreen({ navigation }) {
-  const { questionIndex,setQuestionIndex, questions, setQuestions } = useContext(ScoreContext);
-  //const [questions, setQuestions] = useState([]); //all the questions
-  const [progress, setProgress] = useState(new Animated.Value(0));
+  const { questionIndex, setQuestionIndex, questions, setQuestions } =
+    useContext(ScoreContext);
   const [page, setPage] = useState(false);
   const url =
     "https://opentdb.com/api.php?amount=10&difficulty=hard&type=boolean";
 
   useEffect(() => {
-      axios
+    axios
       .get(url)
       .then(function (response) {
         setQuestions(response.data.results);
@@ -23,8 +28,6 @@ function PlayScreen({ navigation }) {
         console.log(error);
       })
       .then(function () {});
-    
-    
   }, []);
 
   const renderQuestion = () => {
@@ -34,10 +37,7 @@ function PlayScreen({ navigation }) {
           <Text style={styles.textPage}>{questionIndex + 1}</Text>
           <Text style={styles.textTotal}>/ {questions.length}</Text>
         </View>
-        <Question
-          question={questions[questionIndex]}
-          handleNext={handleNext}
-        />
+        <Question question={questions[questionIndex]} handleNext={handleNext} />
       </View>
     );
   };
@@ -47,11 +47,6 @@ function PlayScreen({ navigation }) {
     } else {
       setQuestionIndex(questionIndex + 1);
     }
-    Animated.timing(progress, {
-      toValue: questionIndex + 1,
-      duration: 2000,
-      useNativeDriver: false,
-    }).start();
   };
 
   return (
@@ -60,9 +55,9 @@ function PlayScreen({ navigation }) {
         {page === true ? (
           <View>{renderQuestion()}</View>
         ) : (
-          <View>
+          <View style={styles.containerLoading}>
             {" "}
-            <Text>Loading</Text>
+            <ActivityIndicator size="large" color="#79E8BD" />
           </View>
         )}
       </View>
@@ -80,9 +75,16 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     width: "100%",
     marginTop: "200px",
-    borderRadius:10,
-    borderColor:'black',
-    borderWidth:2,
+    borderRadius: 10,
+    borderColor: "black",
+    borderWidth: 2,
+  },
+  containerLoading: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    width: "100%",
+    marginTop: "400px",
   },
   header: {
     flexDirection: "row",

@@ -9,7 +9,18 @@ const ScoreProvider = (props) => {
   const [questions, setQuestions] = useState([]);
   const [answeredQuestions, setAnsweredQuestions] = useState([]);
   return (
-    <ScoreContext.Provider value={{ score, setScore, questionIndex, setQuestionIndex, questions, setQuestions, answeredQuestions, setAnsweredQuestions }}>
+    <ScoreContext.Provider
+      value={{
+        score,
+        setScore,
+        questionIndex,
+        setQuestionIndex,
+        questions,
+        setQuestions,
+        answeredQuestions,
+        setAnsweredQuestions,
+      }}
+    >
       {props.children}
     </ScoreContext.Provider>
   );
