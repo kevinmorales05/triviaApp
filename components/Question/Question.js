@@ -3,14 +3,22 @@ import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { ScoreContext } from "../../context/ScoreProvider";
 
 export default function Question({ question, handleNext }) {
-  const { score, setScore } = useContext(ScoreContext);
+  const { score, setScore, answeredQuestions, setAnsweredQuestions } = useContext(ScoreContext);
   const compareAnswer = (op) => {
     const answer = question.correct_answer;
     if (answer === op) {
       setScore(score + 1);
+      setAnsweredQuestions([...answeredQuestions ,{
+        questionResolved: question.question,
+        result: true
+      }])
       handleNext();
       return;
     }
+    setAnsweredQuestions([...answeredQuestions ,{
+      questionResolved: question.question,
+      result: false
+    }])
     handleNext();
   };
 
@@ -60,12 +68,14 @@ const styles = StyleSheet.create({
   },
   btn: {
     width: "30%",
-    backgroundColor: "gray",
+    backgroundColor: "#79E8BD",
     textAlign: "center",
     height: 40,
     borderRadius: "10px",
     alignContent: "center",
     padding: 10,
     margin:5,
+    borderColor:'black',
+    borderWidth:2,
   },
 });

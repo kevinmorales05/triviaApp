@@ -11,7 +11,7 @@ export default function App() {
   return (
     <ScoreProvider>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Results">
+        <Stack.Navigator initialRouteName="HomeScreen">
           <Stack.Screen
             name="Home"
             options={{

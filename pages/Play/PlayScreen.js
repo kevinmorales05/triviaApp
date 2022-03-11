@@ -55,7 +55,7 @@ function PlayScreen({ navigation }) {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#853A9C" }}>
       <View style={{ margin: 20 }}>
         {page === true ? (
           <View>{renderQuestion()}</View>
@@ -75,11 +75,14 @@ export default PlayScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#C44AE8",
     alignItems: "center",
     justifyContent: "center",
     width: "100%",
     marginTop: "200px",
+    borderRadius:10,
+    borderColor:'black',
+    borderWidth:2,
   },
   header: {
     flexDirection: "row",

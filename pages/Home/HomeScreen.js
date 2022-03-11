@@ -8,7 +8,7 @@ export default function HomeScreen({navigation}) {
       <Text style={styles.text} >You will be presented with 10 True or False questions</Text>
       <Text style={styles.text} >Can you score 100%?</Text>
       <TouchableOpacity style={styles.btn} onPress={()=> navigation.navigate('Play')}>
-        <Text>BEGIN</Text>
+        <Text style={{color:'white', fontWeight:'bold'}}>BEGIN</Text>
       </TouchableOpacity>
     </View>
   );
@@ -17,7 +17,7 @@ export default function HomeScreen({navigation}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#C44AE8',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -37,12 +37,13 @@ const styles = StyleSheet.create({
   },
   btn:{
     width:'40%',
-    backgroundColor:'gray',
+    backgroundColor:'#79E8BD',
     textAlign:'center',
     height:40,
     borderRadius:'10px',
     alignContent:'center',
     padding:10,
-    
+    borderColor:'black',
+    borderWidth:2,
   }
 });
