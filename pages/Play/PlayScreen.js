@@ -56,7 +56,6 @@ function PlayScreen({ navigation }) {
           <View>{renderQuestion()}</View>
         ) : (
           <View style={styles.containerLoading}>
-            {" "}
             <ActivityIndicator size="large" color="#79E8BD" />
           </View>
         )}
@@ -74,7 +73,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     width: "100%",
-    marginTop: "200px",
+    marginTop: 200,
     borderRadius: 10,
     borderColor: "black",
     borderWidth: 2,
@@ -84,7 +83,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     width: "100%",
-    marginTop: "400px",
+    marginTop: 400,
   },
   header: {
     flexDirection: "row",
